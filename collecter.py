@@ -4,7 +4,12 @@ import sched, time
 import subprocess
 import json 
 
+"""
+Run speedtest command and parse results.
 
+Selects best server based on ping.
+--json : Speeds listed in bit/s and not affected by --bytes.
+"""
 def speed():
     command = ['speedtest', '--json']
     process = subprocess.Popen(command,stdout=subprocess.PIPE,
@@ -24,7 +29,9 @@ def speed():
                 "up":  0,
                 "ping": 0
                 }
-  
+
+
+#Ping google and checks for any packet loss
 def ping():
     command = ['ping', "-c", '1', "google.com"]
     process = subprocess.Popen(command,stdout=subprocess.PIPE,
@@ -40,6 +47,12 @@ def ping():
 
     return pingStatus
 
+"""
+Parse api.php page from pihole dns server.
+Drop un-used values
+Gravity is the list of blocked domains.
+hours = epoch seconds / 3600
+"""
 def pihole():
     api = requests.get("http://netpi.lan/admin/api.php")
     API_out = api.json()
@@ -52,6 +65,9 @@ def pihole():
     
     return d
 
+"""
+write to database every 15 seconds
+"""
 def ctrlp(client):
     o = ping()
     json_body = [{"measurement": "internet", "fields": {"value": o}}]
@@ -63,6 +79,9 @@ def ctrlp(client):
 
     s.enter(15, 1, ctrlp, (client,))
 
+"""
+write to database every 10 minuits 
+"""
 def ctrls(client):
     stathole = pihole()
     statspeed = speed()
@@ -86,6 +105,9 @@ def ctrls(client):
     #600
     s.enter(600, 1, ctrls, (client,))
 
+"""
+setup db connection and timer
+"""
 if __name__ == "__main__":
     #setup
     client = InfluxDBClient(host='localhost', port=8086)
