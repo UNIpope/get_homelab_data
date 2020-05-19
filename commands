@@ -1,0 +1,34 @@
+//install docker
+curl https://get.docker.com > get-docker.sh
+sudo bash get-docker.sh
+sudo usermod -aG docker pi
+
+//docker commands
+docker container ls -a
+docker container stop/start/rm <container>
+docker update --restart=always <container>
+docker logs --tail 50 --follow --timestamps <container>
+
+
+//setup influxdb
+docker pull influxdb
+docker run --name=influxdb -d -p 8086:8086 influxdb
+
+sudo docker exec -it 9ae29272dc67 /usr/bin/influx
+CREATE DATABASE net
+USE net
+
+
+//setup grafana
+docker volume create grafana-storage
+docker run -d -p 3000:3000 --name=grafana -v grafana-storage:/var/lib/grafana grafana/grafana
+docker container stop 
+cp grafana.db
+chgrp + chown
+
+
+//setup service
+copy to /lib/systemd/system
+copy py to /usr/bin/
+systemctl daemon-reload
+systemctl start pycol.service

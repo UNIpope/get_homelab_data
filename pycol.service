@@ -1,0 +1,11 @@
+[Unit]
+Description=collecter for speedtest and pihole
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/bin/collecter.py
+User=pi
+
+[Install]
+WantedBy=multi-user.target

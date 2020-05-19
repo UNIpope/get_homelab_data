@@ -18,7 +18,7 @@ def speed():
     ocode = process.wait()
 
     try:
-        output = json.loads(process.stdout.read())
+        output = json.loads(process.stdout.read().decode('utf-8'))
         
         return {"down": round(output["download"]/1000000),
                 "up":  round(output["upload"]/1000000),
@@ -38,7 +38,7 @@ def ping():
                                stderr=subprocess.STDOUT)
 
     ocode = process.wait()
-    output = process.stdout.read()
+    output = process.stdout.read().decode('utf-8')
 
     if " 0% packet loss" in output:
         pingStatus = 1
