@@ -58,7 +58,7 @@ def pihole():
     API_out = api.json()
 
     keep = ['dns_queries_today', 'ads_percentage_today', 'ads_blocked_today', 'unique_clients', 'unique_domains','domains_being_blocked']
-    d = dict((k, v) for (k, v) in API_out.iteritems() if k in keep)
+    d = dict((k, v) for (k, v) in API_out.items() if k in keep)
     
     epoch_time = int(time.time())
     d["gravup"] = (epoch_time - API_out["gravity_last_updated"]["absolute"])/3600
