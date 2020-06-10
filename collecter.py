@@ -4,6 +4,7 @@ import sched, time
 import subprocess
 import json 
 
+
 """
 Run speedtest command and parse results.
 
@@ -29,7 +30,6 @@ def speed():
                 "up":  0,
                 "ping": 0
                 }
-
 
 #Ping google and checks for any packet loss
 def ping():
@@ -66,7 +66,7 @@ def pihole():
     return d
 
 """
-write to database every 15 seconds
+get/write to database every 15 seconds
 """
 def ctrlp(client):
     o = ping()
@@ -80,7 +80,7 @@ def ctrlp(client):
     s.enter(15, 1, ctrlp, (client,))
 
 """
-write to database every 10 minuits 
+get/write to database every 10 minuits 
 """
 def ctrls(client):
     stathole = pihole()
@@ -110,7 +110,7 @@ setup db connection and timer
 """
 if __name__ == "__main__":
     #setup
-    client = InfluxDBClient(host='localhost', port=8086)
+    client = InfluxDBClient(host='monpi.lan', port=8086)
     client.switch_database('net')
     s = sched.scheduler(time.time, time.sleep)
 

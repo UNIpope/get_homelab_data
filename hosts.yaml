@@ -1,0 +1,14 @@
+---
+monpi.lan:
+    hostname: monpi.lan
+    port: 22
+    platform: linux
+    groups:
+        - pi
+
+netpi.lan:
+    hostname: netpi.lan
+    port: 22
+    platform: linux
+    groups:
+        - pi
