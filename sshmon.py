@@ -38,10 +38,11 @@ def get_data_pi(task):
         result["cpuus"] = int(vmstato[2])
         result["cache"] = float(vmstato[1]) / 1e+6
         result["buff"] = float(vmstato[0]) / 1e+6
-        
+
     return result
 
-r = nr.run(task=get_data_pi, num_workers=1)
+pi_hosts = nr.filter(groups=["pi"])
+r = pi_hosts.run(task=get_data_pi, num_workers=1)
 print_result(r)
 
 """
