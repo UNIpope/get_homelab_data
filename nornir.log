@@ -1,2 +1,155 @@
 2020-06-11 14:37:22,815 -  nornir.core -  WARNING -        run() - Task 'get_data_pi' has not been run – 0 hosts selected
 2020-06-11 14:38:14,172 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-11 17:36:55,505 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-11 17:37:32,341 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 06:31:38,993 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 06:31:57,224 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 06:32:15,940 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 06:38:03,263 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 06:39:59,114 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 06:43:28,167 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 06:47:35,848 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 06:47:37,188 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 06:47:37,285 - nornir.core.task -    ERROR -      start() - Host 'vanilla.lan': task 'get_data_vm' failed with traceback:
+Traceback (most recent call last):
+  File "/home/jack/.local/lib/python3.6/site-packages/spur/ssh.py", line 269, in _get_ssh_transport
+    return self._connect_ssh().get_transport()
+  File "/home/jack/.local/lib/python3.6/site-packages/spur/ssh.py", line 289, in _connect_ssh
+    sock=self._sock
+  File "/home/jack/.local/lib/python3.6/site-packages/paramiko/client.py", line 416, in connect
+    self, server_hostkey_name, server_key
+  File "/home/jack/.local/lib/python3.6/site-packages/paramiko/client.py", line 824, in missing_host_key
+    "Server {!r} not found in known_hosts".format(hostname)
+paramiko.ssh_exception.SSHException: Server 'vanilla.lan' not found in known_hosts
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/jack/.local/lib/python3.6/site-packages/nornir/core/task.py", line 85, in start
+    r = self.task(self, **self.params)
+  File "/home/jack/code/homelab_collector/sshmon.py", line 15, in get_data_vm
+    rootfs = shell.run(["df"]).output.decode("utf-8").split("\n")[1].split()
+  File "/home/jack/.local/lib/python3.6/site-packages/spur/ssh.py", line 169, in run
+    return self.spawn(*args, **kwargs).wait_for_result()
+  File "/home/jack/.local/lib/python3.6/site-packages/spur/ssh.py", line 181, in spawn
+    channel = self._get_ssh_transport().open_session()
+  File "/home/jack/.local/lib/python3.6/site-packages/spur/ssh.py", line 271, in _get_ssh_transport
+    raise self._connection_error(error)
+spur.ssh.ConnectionError: Error creating SSH connection
+Original error: Server 'vanilla.lan' not found in known_hosts
+
+2020-06-12 06:48:46,133 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 06:48:47,358 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 06:50:05,885 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 06:50:07,139 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:04:16,362 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:04:17,638 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:04:39,927 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:04:41,136 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:04:41,388 - nornir.core.task -    ERROR -      start() - Host 'vanilla.lan': task 'get_data_vm' failed with traceback:
+Traceback (most recent call last):
+  File "/home/jack/.local/lib/python3.6/site-packages/nornir/core/task.py", line 85, in start
+    r = self.task(self, **self.params)
+  File "/home/jack/code/homelab_collector/sshmon.py", line 20, in get_data_vm
+    meminfo = shell.run(["cat","/proc/meminfo"]).output.decode("utf-8").split("\n").split()
+AttributeError: 'list' object has no attribute 'split'
+
+2020-06-12 07:06:41,016 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:06:42,157 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:23:13,831 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:23:15,056 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:23:34,446 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:23:35,677 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:24:20,321 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:24:21,547 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:24:21,790 - nornir.core.task -    ERROR -      start() - Host 'vanilla.lan': task 'get_data_vm' failed with traceback:
+Traceback (most recent call last):
+  File "/home/jack/.local/lib/python3.6/site-packages/nornir/core/task.py", line 85, in start
+    r = self.task(self, **self.params)
+  File "/home/jack/code/homelab_collector/sshmon.py", line 24, in get_data_vm
+    result["mem"] =  meminfo[0].split()[1] - meminfo[1].split()[1]
+TypeError: unsupported operand type(s) for -: 'str' and 'str'
+
+2020-06-12 07:24:39,827 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:24:41,037 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:26:07,932 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:26:09,157 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:27:15,152 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:27:16,376 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:30:50,706 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:30:51,827 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:35:34,106 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:35:35,316 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:36:06,321 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:36:07,546 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:37:24,316 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:37:25,556 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:38:16,185 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:38:17,456 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:39:40,754 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:39:42,157 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:43:12,438 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:43:13,757 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:43:50,118 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:43:51,547 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:57:28,044 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:57:29,356 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:59:00,313 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:59:01,656 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 07:59:38,182 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 07:59:39,576 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 08:00:03,104 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 08:00:04,466 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 08:00:39,853 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 08:00:41,256 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 08:01:07,648 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 08:01:09,046 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 08:01:09,294 - nornir.core.task -    ERROR -      start() - Host 'vanilla.lan': task 'get_data_vm' failed with traceback:
+Traceback (most recent call last):
+  File "/home/jack/.local/lib/python3.6/site-packages/nornir/core/task.py", line 85, in start
+    r = self.task(self, **self.params)
+  File "/home/jack/code/homelab_collector/sshmon.py", line 25, in get_data_vm
+    result["mem"] =  result["memused"] / (int(meminfo[0].split()[1]) / 1e+6) * 100 [4]
+TypeError: 'int' object is not subscriptable
+
+2020-06-12 08:01:20,692 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 08:01:22,006 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 08:01:22,254 - nornir.core.task -    ERROR -      start() - Host 'vanilla.lan': task 'get_data_vm' failed with traceback:
+Traceback (most recent call last):
+  File "/home/jack/.local/lib/python3.6/site-packages/nornir/core/task.py", line 85, in start
+    r = self.task(self, **self.params)
+  File "/home/jack/code/homelab_collector/sshmon.py", line 25, in get_data_vm
+    result["mem"] =  (result["memused"] / (int(meminfo[0].split()[1]) / 1e+6) * 100)[4]
+TypeError: 'float' object is not subscriptable
+
+2020-06-12 08:01:37,858 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 08:01:39,176 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 08:01:58,665 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 08:02:00,056 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 08:02:13,960 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 08:02:15,216 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 08:02:23,156 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 08:02:24,295 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 08:02:37,431 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 08:02:38,716 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 08:03:02,769 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 08:03:04,156 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 08:05:01,628 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 08:05:02,955 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 08:06:35,528 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 08:06:36,925 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 08:09:34,906 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 08:09:36,245 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 08:10:10,370 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 08:10:11,755 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 08:10:42,829 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 08:10:44,185 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 08:11:32,326 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 08:11:33,606 -  nornir.core -     INFO -        run() - Running task 'get_data_vm' with args {} on 1 hosts
+2020-06-12 08:18:04,956 -  nornir.core -     INFO -        run() - Running task 'get_data_pi' with args {} on 2 hosts
+2020-06-12 08:20:21,777 -  nornir.core -     INFO -        run() - Running task 'get_data' with args {} on 3 hosts
+2020-06-12 08:20:37,392 -  nornir.core -     INFO -        run() - Running task 'get_data' with args {} on 3 hosts
+2020-06-12 08:21:15,835 -  nornir.core -     INFO -        run() - Running task 'get_data' with args {} on 3 hosts
+2020-06-12 08:23:07,965 -  nornir.core -     INFO -        run() - Running task 'get_data' with args {} on 3 hosts
+2020-06-12 08:23:16,504 -  nornir.core -     INFO -        run() - Running task 'get_data' with args {} on 3 hosts
+2020-06-12 08:23:27,000 -  nornir.core -     INFO -        run() - Running task 'get_data' with args {} on 3 hosts

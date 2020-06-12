@@ -12,3 +12,10 @@ netpi.lan:
     platform: linux
     groups:
         - pi
+
+vanilla.lan:
+    hostname: vanilla.lan
+    port: 22
+    platform: linux
+    groups:
+        - vm

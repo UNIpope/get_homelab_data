@@ -6,49 +6,37 @@ from nornir import InitNornir
 nr = InitNornir(core={'num_workers': 2})
 print(nr.inventory.hosts)
 
-def get_data_vms(task):
+def get_data(task):
     result = {}
     shell = spur.SshShell(hostname=task.host.name, username=task.host.username, password=task.host.password)
 
     with shell:
-        #cpu and mem
+        if "pi" in task.host.groups:
+            result["temp"] = float(shell.run(["vcgencmd", "measure_temp"]).output.decode("utf-8").strip().replace("temp=","")[:-2])
+
+        #storage use
+        rootfs = shell.run(["df"]).output.decode("utf-8").split("\n")[1].split()
+        if rootfs[5] == "/":
+            result["fsused"] = int(rootfs[2])/ 1e+6
+            result["fs"] = rootfs[4]
+            
+        #memory
+        meminfo = list(map(shell.run(["cat","/proc/meminfo"]).output.decode("utf-8").split("\n").__getitem__, [0,1,2]))
+        result["memused"] =  (int(meminfo[0].split()[1]) - int(meminfo[2].split()[1])) / 1e+6
+        result["mem"] =  str(result["memused"] / (int(meminfo[0].split()[1]) / 1e+6) * 100)[:4] + "%"
+
+        #cpu
         vmstat = shell.run(["vmstat"]).output.decode("utf-8")
-        vmstato = list(map(vmstat.split("\n")[2].split().__getitem__, [4, 5, 13, 14]))
+        vmstato = list(map(vmstat.split("\n")[2].split().__getitem__, [13, 14]))
 
-        result["cpuidle"] = int(vmstato[3])
-        result["cpuus"] = int(vmstato[2])
-        result["cache"] = float(vmstato[1]) / 1e+6
-        result["buff"] = float(vmstato[0]) / 1e+6
-
+        result["cpuidle"] = int(vmstato[1])
+        result["cpuuse"] = int(vmstato[0])
 
     return result
 
-def get_data_pi(task):
-    result = {}
-    shell = spur.SshShell(hostname=task.host.name, username=task.host.username, password=task.host.password)
+def pushdb():
+    pass
 
-    with shell:
-        result["temp"] = float(shell.run(["vcgencmd", "measure_temp"]).output.decode("utf-8").strip().replace("temp=","")[:-2])
-
-        #cpu and mem
-        vmstat = shell.run(["vmstat"]).output.decode("utf-8")
-        vmstato = list(map(vmstat.split("\n")[2].split().__getitem__, [4, 5, 13, 14]))
-
-        result["cpuidle"] = int(vmstato[3])
-        result["cpuus"] = int(vmstato[2])
-        result["cache"] = float(vmstato[1]) / 1e+6
-        result["buff"] = float(vmstato[0]) / 1e+6
-
-    return result
-
-pi_hosts = nr.filter(groups=["pi"])
-r = pi_hosts.run(task=get_data_pi, num_workers=1)
-print_result(r)
-
-"""
-pi_hosts = nr.filter(groups="pi")
-print(pi_hosts)
-res = pi_hosts.run(task=get_temp, num_workers=2)
-print(res)
-print_result(res, vars=["stdout"])
-"""
+#run against all
+v = nr.run(task=get_data, num_workers=1)
+print_result(v)

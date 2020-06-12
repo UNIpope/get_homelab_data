@@ -1,3 +1,4 @@
 .vscode/*
 tst*
 groups.yaml
+*.log
