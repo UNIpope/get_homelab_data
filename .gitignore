@@ -1,4 +1,4 @@
 .vscode/*
 tst*
 groups.yaml
-*.log
+nornir.log

@@ -26,5 +26,6 @@ pyxdg==0.25
 requests==2.23.0
 SecretStorage==2.3.1
 six==1.14.0
+spur==0.3.21
 urllib3==1.25.9
 zope.interface==5.1.0
