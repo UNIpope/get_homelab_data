@@ -3,7 +3,7 @@ import requests
 import sched, time
 import subprocess
 import json 
-
+from sshmon import run_nor
 
 """
 Run speedtest command and parse results.
@@ -73,6 +73,7 @@ def ctrlp(client):
     json_body = [{"measurement": "internet", "fields": {"value": o}}]
 
     try:
+        client.switch_database('net')
         client.write_points(json_body)
     except:
         print("error: writing to database")
@@ -98,9 +99,12 @@ def ctrls(client):
                  {"measurement": "gravup", "fields": {"value": float(stathole["gravup"])}},
                 ]
     try:
+        client.switch_database('net')
         client.write_points(json_body)
     except:
         print("error: writing to database")
+
+    run_nor(client)
 
     #600
     s.enter(600, 1, ctrls, (client,))
@@ -111,7 +115,6 @@ setup db connection and timer
 if __name__ == "__main__":
     #setup
     client = InfluxDBClient(host='monpi.lan', port=8086)
-    client.switch_database('net')
     s = sched.scheduler(time.time, time.sleep)
 
     #timers

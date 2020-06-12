@@ -3,14 +3,26 @@ import json
 import spur
 from nornir import InitNornir
 
-nr = InitNornir(core={'num_workers': 2})
-print(nr.inventory.hosts)
+def push_db(client, json_body):
+    try:
+        client.switch_database('server')
+        client.write_points(json_body)
+    except:
+        print("error: writing to database")
+
+def create_body(nout):
+    json_body = []
+    for host in nout:
+        json_body.append({"measurement": host, "fields": nout[host][0].result})
+
+    return json_body
 
 def get_data(task):
     result = {}
     shell = spur.SshShell(hostname=task.host.name, username=task.host.username, password=task.host.password)
 
     with shell:
+        #rasbrry pi commands
         if "pi" in task.host.groups:
             result["temp"] = float(shell.run(["vcgencmd", "measure_temp"]).output.decode("utf-8").strip().replace("temp=","")[:-2])
 
@@ -34,9 +46,16 @@ def get_data(task):
 
     return result
 
-def pushdb():
-    pass
+def run_nor(client):
+    #run nornir + spur
+    nr = InitNornir(core={'num_workers': 6})
+    nout = nr.run(task=get_data)
 
-#run against all
-v = nr.run(task=get_data, num_workers=1)
-print_result(v)
+    #format + send to database
+    json_body = create_body(nout)
+    push_db(client, json_body)
+
+if __name__ == "__main__":
+    from influxdb import InfluxDBClient
+    client = InfluxDBClient(host='monpi.lan', port=8086)
+    run_nor(client)
