@@ -13,7 +13,7 @@ def push_db(client, json_body):
 def create_body(nout):
     json_body = []
     for host in nout:
-        json_body.append({"measurement": host, "fields": nout[host][0].result})
+        json_body.append({"measurement": host[:-4], "fields": nout[host][0].result})
 
     return json_body
 
@@ -53,6 +53,7 @@ def run_nor(client):
 
     #format + send to database
     json_body = create_body(nout)
+    print(json_body)
     push_db(client, json_body)
 
 if __name__ == "__main__":

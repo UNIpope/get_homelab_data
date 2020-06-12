@@ -1,20 +1,20 @@
 ---
-monpi:
-    hostname: monpi.lan
+monpi.lan:
+    hostname: monpi
     port: 22
     platform: linux
     groups:
         - pi
 
-netpi:
-    hostname: netpi.lan
+netpi.lan:
+    hostname: netpi
     port: 22
     platform: linux
     groups:
         - pi
 
-vanilla:
-    hostname: vanilla.lan
+vanilla.lan:
+    hostname: vanilla
     port: 22
     platform: linux
     groups:
