@@ -19,7 +19,7 @@ def speed():
     ocode = process.wait()
 
     try:
-        output = json.loads(process.stdout.read())
+        output = json.loads(process.stdout.read().decode('utf-8'))
         
         return {"down": round(output["download"]/1000000),
                 "up":  round(output["upload"]/1000000),
@@ -38,7 +38,7 @@ def ping():
                                stderr=subprocess.STDOUT)
 
     ocode = process.wait()
-    output = process.stdout.read()
+    output = process.stdout.read().decode('utf-8')
 
     if " 0% packet loss" in output:
         pingStatus = 1
@@ -58,7 +58,7 @@ def pihole():
     API_out = api.json()
 
     keep = ['dns_queries_today', 'ads_percentage_today', 'ads_blocked_today', 'unique_clients', 'unique_domains','domains_being_blocked']
-    d = dict((k, v) for (k, v) in API_out.iteritems() if k in keep)
+    d = dict((k, v) for (k, v) in API_out.items() if k in keep)
     
     epoch_time = int(time.time())
     d["gravup"] = (epoch_time - API_out["gravity_last_updated"]["absolute"])/3600
