@@ -30,12 +30,12 @@ def get_data(task):
         rootfs = shell.run(["df"]).output.decode("utf-8").split("\n")[1].split()
         if rootfs[5] == "/":
             result["fsused"] = int(rootfs[2])/ 1e+6
-            result["fs"] = rootfs[4]
+            result["fs"] = rootfs[4][:-1]
             
         #memory
         meminfo = list(map(shell.run(["cat","/proc/meminfo"]).output.decode("utf-8").split("\n").__getitem__, [0,1,2]))
         result["memused"] =  (int(meminfo[0].split()[1]) - int(meminfo[2].split()[1])) / 1e+6
-        result["mem"] =  str(result["memused"] / (int(meminfo[0].split()[1]) / 1e+6) * 100)[:4] + "%"
+        result["mem"] =  str(result["memused"] / (int(meminfo[0].split()[1]) / 1e+6) * 100)[:4]
 
         #cpu
         vmstat = shell.run(["vmstat"]).output.decode("utf-8")
