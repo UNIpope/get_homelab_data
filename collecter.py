@@ -2,8 +2,29 @@ from influxdb import InfluxDBClient
 import requests
 import sched, time
 import subprocess
-import json 
+import json, os
 from sshmon import run_nor
+
+def weather():
+    url = "https://community-open-weather-map.p.rapidapi.com/weather"
+    querystring = {"lang":"en","units":"metric","mode":"json","q":"westport,ie"}
+
+    headers = {
+        'x-rapidapi-host': "community-open-weather-map.p.rapidapi.com",
+        'x-rapidapi-key': os.environ["rapidapikey"]
+        }
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+    jn = json.loads(response.text)
+
+    out = [
+        {"measurement": "temp", "fields": {"value": jn["main"]["temp"]}},
+        {"measurement": "humidity", "fields": {"value": jn["main"]["humidity"]}},
+        {"measurement": "wind", "fields": {"value": jn["wind"]["speed"]*3.6}},
+        {"measurement": "sunset", "fields": {"value": jn["sys"]["sunset"]}}
+    ]
+
+    return out
 
 """
 Run speedtest command and parse results.
@@ -109,6 +130,15 @@ def ctrls(client):
     #600
     s.enter(600, 1, ctrls, (client,))
 
+def ctrlw(client):
+    wout = weather()
+
+    try:
+        client.switch_database('sensors')
+        client.write_points(wout)
+    except:
+        print("error: writing to database")
+
 """
 setup db connection and timer
 """
@@ -120,5 +150,6 @@ if __name__ == "__main__":
     #timers
     s.enter(15, 1, ctrlp, (client,))
     s.enter(600, 1, ctrls, (client,))
+    s.enter(43200, 1, ctrlw, (client,))
 
     s.run()
