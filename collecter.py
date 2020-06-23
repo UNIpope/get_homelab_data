@@ -13,9 +13,11 @@ def weather():
         'x-rapidapi-host': "community-open-weather-map.p.rapidapi.com",
         'x-rapidapi-key': os.environ["rapidapikey"]
         }
-
-    response = requests.request("GET", url, headers=headers, params=querystring)
-    jn = json.loads(response.text)
+    try:
+        response = requests.request("GET", url, headers=headers, params=querystring)
+        jn = json.loads(response.text)
+    except Exception as e:
+        print(e)
 
     out = [
         {"measurement": "temp", "fields": {"value": jn["main"]["temp"]}},
