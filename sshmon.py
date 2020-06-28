@@ -1,7 +1,7 @@
 from nornir.plugins.functions.text import print_result
-import json
-import spur
+import json, re, spur
 from nornir import InitNornir
+from pprint import pprint
 
 def push_db(client, json_body):
     try:
@@ -25,6 +25,13 @@ def get_data(task):
         #rasbrry pi commands
         if "pi" in task.host.groups:
             result["temp"] = float(shell.run(["vcgencmd", "measure_temp"]).output.decode("utf-8").strip().replace("temp=","")[:-2])
+
+        if "host" in task.host.groups:
+            zpool = shell.run(["zpool", "status"]).output.decode("utf-8").split("\n")[6:-3]
+            zpool = [re.sub(' +', ', ', i.replace("\t"," "))[2:] for i in zpool]
+
+            pprint(zpool)
+            print("\n\n")
 
         #storage use
         rootfs = shell.run(["df"]).output.decode("utf-8").split("\n")[1].split()
@@ -53,8 +60,8 @@ def run_nor(client):
 
     #format + send to database
     json_body = create_body(nout)
-    print(json_body)
-    push_db(client, json_body)
+    pprint(json_body)
+    #push_db(client, json_body)
 
 if __name__ == "__main__":
     from influxdb import InfluxDBClient

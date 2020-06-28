@@ -1,4 +1,11 @@
 ---
+dalinar.lan:
+    hostname: dallanar
+    port: 22
+    platform: linux
+    groups:
+        - host
+
 monpi.lan:
     hostname: monpi
     port: 22
@@ -13,7 +20,21 @@ netpi.lan:
     groups:
         - pi
 
+samba.lan:
+    hostname: samba
+    port: 22
+    platform: linux
+    groups:
+        - vm
+
 vanilla.lan:
+    hostname: vanilla
+    port: 22
+    platform: linux
+    groups:
+        - vm
+
+browser.lan:
     hostname: vanilla
     port: 22
     platform: linux
