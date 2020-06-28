@@ -26,13 +26,30 @@ def get_data(task):
         if "pi" in task.host.groups:
             result["temp"] = float(shell.run(["vcgencmd", "measure_temp"]).output.decode("utf-8").strip().replace("temp=","")[:-2])
 
+        #hypervisor commands
         if "host" in task.host.groups:
+            # zfs filesys check
             zpool = shell.run(["zpool", "status"]).output.decode("utf-8").split("\n")[6:-3]
-            zpool = [re.sub(' +', ', ', i.replace("\t"," "))[2:] for i in zpool]
+            zpool = [re.sub(' +', ': ', i.replace("\t"," "))[2:-9] for i in zpool]
+            print(zpool)
+            
+            zpoolo = {}
+            for i in zpool:
+                l = i.split(": ")
+                result["zfs-"+l[0]] = l[1]
 
-            pprint(zpool)
-            print("\n\n")
+            blk = json.loads(shell.run(["lsblk", "--json"]).output.decode("utf-8"))
+            drives = []            
+            for drive in blk["blockdevices"]:
+                if "sd" in drive["name"]:
+                    drives.append(drive["name"])
 
+            for drive in drives:
+                dtemp = shell.run(["hddtemp", "/dev/{}".format(drive)]).output.decode("utf-8").strip().split(": ")
+                result[dtemp[0][-3:]] = dtemp[2]
+
+
+        #commands for all devices
         #storage use
         rootfs = shell.run(["df"]).output.decode("utf-8").split("\n")[1].split()
         if rootfs[5] == "/":
