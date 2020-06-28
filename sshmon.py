@@ -31,19 +31,20 @@ def get_data(task):
             # zfs filesys check
             zpool = shell.run(["zpool", "status"]).output.decode("utf-8").split("\n")[6:-3]
             zpool = [re.sub(' +', ': ', i.replace("\t"," "))[2:-9] for i in zpool]
-            print(zpool)
             
             zpoolo = {}
             for i in zpool:
                 l = i.split(": ")
                 result["zfs-"+l[0]] = l[1]
 
+            #get drives
             blk = json.loads(shell.run(["lsblk", "--json"]).output.decode("utf-8"))
             drives = []            
             for drive in blk["blockdevices"]:
                 if "sd" in drive["name"]:
                     drives.append(drive["name"])
 
+            #temp of drives
             for drive in drives:
                 dtemp = shell.run(["hddtemp", "/dev/{}".format(drive)]).output.decode("utf-8").strip().split(": ")
                 result[dtemp[0][-3:]] = dtemp[2]
@@ -78,7 +79,7 @@ def run_nor(client):
     #format + send to database
     json_body = create_body(nout)
     pprint(json_body)
-    #push_db(client, json_body)
+    push_db(client, json_body)
 
 if __name__ == "__main__":
     from influxdb import InfluxDBClient
